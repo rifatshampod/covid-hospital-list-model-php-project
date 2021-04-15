@@ -21,7 +21,7 @@
 								</a>
 							</li>
 							<li>
-								<a href="book-appointment.php">
+								<a href="add-symptoms.php">
 									<div class="item-content">
 										<div class="item-media">
 											<i class="ti-pencil-alt"></i>
@@ -54,6 +54,32 @@
 										</div>
 										<div class="item-inner">
 											<span class="title"> Notification </span>
+										</div>
+									</div>
+								</a>
+							</li>
+
+							<li>
+								<a href="approve.php">
+									<div class="item-content">
+										<div class="item-media">
+											<i class="ti-check-box"></i>
+										</div>
+										<div class="item-inner">
+											<span class="title"> Sharing Approval </span>
+										</div>
+									</div>
+								</a>
+							</li>
+
+							<li>
+								<a href="hospitals.php">
+									<div class="item-content">
+										<div class="item-media">
+											<i class="ti-heart-broken"></i>
+										</div>
+										<div class="item-inner">
+											<span class="title"> Nearby Hospitals </span>
 										</div>
 									</div>
 								</a>
