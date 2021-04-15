@@ -9,7 +9,7 @@ check_login();
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>User  | Dashboard</title>
+		<title>Patient  | Dashboard</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,11 +34,109 @@ check_login();
 
 	</head>
 	<body>
-			
-		<h1>Login Successfull</h1>		
+		<div id="app">		
+<?php include('include/sidebar.php');?>
+			<div class="app-content">
+				
+						<?php include('include/header.php');?>
+						
+				<!-- end: TOP NAVBAR -->
+				<div class="main-content" >
+					<div class="wrap-content container" id="container">
+						<!-- start: PAGE TITLE -->
+						<section id="page-title">
+							<div class="row">
+								<div class="col-sm-8">
+									<h1 class="mainTitle">Patient | Dashboard</h1>
+																	</div>
+								<ol class="breadcrumb">
+									<li>
+										<span>Patient</span>
+									</li>
+									<li class="active">
+										<span>Dashboard</span>
+									</li>
+								</ol>
+							</div>
+						</section>
+						<!-- end: PAGE TITLE -->
+						<!-- start: BASIC EXAMPLE -->
+							<div class="container-fluid container-fullw bg-white">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="panel panel-white no-radius text-center">
+										<div class="panel-body">
+											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-smile-o fa-stack-1x fa-inverse"></i> </span>
+											<h2 class="StepTitle">My Profile</h2>
+											
+											<p class="links cl-effect-1">
+												<a href="edit-profile.php">
+													Update Profile
+												</a>
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="panel panel-white no-radius text-center">
+										<div class="panel-body">
+											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-paperclip fa-stack-1x fa-inverse"></i> </span>
+											<h2 class="StepTitle">My Daily Updates</h2>
+										
+											<p class="cl-effect-1">
+												<a href="appointment-history.php">
+													View Update History
+												</a>
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="col-sm-4">
+									<div class="panel panel-white no-radius text-center">
+										<div class="panel-body">
+											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
+											<h2 class="StepTitle"> My Notifications</h2>
+											
+											<p class="links cl-effect-1">
+												<a href="notification.php">
+													Check for notification
+												</a>
+											</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="container-fluid container-fullw bg-white">
+							<div class="row">
+								<div class="col-sm-4">
+									<div class="panel panel-white no-radius text-center">
+										<h3>Latest Updates</h3>
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="panel panel-white no-radius text-center">
+										<h3>Recent Notifications</h3>
+									</div>
+								</div>
+
+								<div class="col-sm-4">
+									<div class="panel panel-white no-radius text-center">
+										<h3>Nearby Hospitals</h3>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
 					
-
-
+						<!-- end: SELECT BOXES -->
+						
+					</div>
+				</div>
+			</div>
 			<!-- start: FOOTER -->
 	<?php include('include/footer.php');?>
 			<!-- end: FOOTER -->
@@ -47,6 +145,7 @@ check_login();
 	<?php include('include/setting.php');?>
 			<>
 			<!-- end: SETTINGS -->
+		</div>
 		<!-- start: MAIN JAVASCRIPTS -->
 		<script src="vendor/jquery/jquery.min.js"></script>
 		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>

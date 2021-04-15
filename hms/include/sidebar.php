@@ -27,7 +27,7 @@
 											<i class="ti-pencil-alt"></i>
 										</div>
 										<div class="item-inner">
-											<span class="title"> Book Appointment </span>
+											<span class="title"> Add Daily Update </span>
 										</div>
 									</div>
 								</a>
@@ -40,7 +40,20 @@
 											<i class="ti-list"></i>
 										</div>
 										<div class="item-inner">
-											<span class="title"> Appointment History </span>
+											<span class="title"> Daily Update History </span>
+										</div>
+									</div>
+								</a>
+							</li>
+
+							<li>
+								<a href="notification.php">
+									<div class="item-content">
+										<div class="item-media">
+											<i class="ti-signal"></i>
+										</div>
+										<div class="item-inner">
+											<span class="title"> Notification </span>
 										</div>
 									</div>
 								</a>
