@@ -6,18 +6,28 @@ include 'include/checklogin.php';
 check_login();
 
 if (isset($_POST['submit'])) {
-    $specilization = $_POST['Doctorspecialization'];
-    $doctorid = $_POST['doctor'];
-    $userid = $_SESSION['id'];
-    $fees = $_POST['fees'];
-    $appdate = $_POST['appdate'];
-    $time = $_POST['apptime'];
-    $userstatus = 1;
-    $docstatus = 1;
-    $query = mysqli_query($con, "insert into appointment(doctorSpecialization,doctorId,userId,consultancyFees,appointmentDate,appointmentTime,userStatus,doctorStatus) values('$specilization','$doctorid','$userid','$fees','$appdate','$time','$userstatus','$docstatus')");
+
+	$type = $_POST['symptomType'];
+	$symptom = $_POST['symptom_list'];
+	$userid = $_SESSION['id'];
+	$duration = $_POST['duration'];
+	$tested = $_POST['tested'];
+	$touched = $_POST['touched'];
+	$appdate = $_POST['appdate'];
+	$chk = "";
+
+	foreach ($symptom as $chk1) {
+    $chk .= $chk1 . ",";
+	}
+
+    $query = mysqli_query($con, "insert into symptoms(user_id, symptom_type, symptoms, duration, covid_test, covid_touch, date) values('$userid','$type','$chk','$duration','$tested', '$touched','$appdate')");
     if ($query) {
-        echo "<script>alert('Your appointment successfully booked');</script>";
+        echo "<script>alert('Your daily update added successfully');</script>";
     }
+	else  
+   {  
+      echo'<script>alert("Failed To Insert")</script>';  
+   }
 
 }
 ?>
@@ -88,11 +98,69 @@ if (isset($_POST['submit'])) {
 													<p style="color:red;"><?php echo htmlentities($_SESSION['msg1']); ?>
 													<?php echo htmlentities($_SESSION['msg1'] = ""); ?></p>
 													<form role="form" name="book" method="post" >
-														<div class="form-group">
 														
+
+														<div class="form-group">
+															<label for="DoctorSpecialization">
+																Symptom Type
+															</label>
+															<select name="symptomType" class="form-control" required="required">
+																<option value="">Select Symptom Type</option>
+																<?php $ret = mysqli_query($con, "select * from doctorspecilization");
+																	while ($row = mysqli_fetch_array($ret)) {
+    															?>
+																<option value="<?php echo htmlentities($row['specilization']); ?>">
+																<?php echo htmlentities($row['specilization']); ?>
+																</option>
+																<?php }?>
+
+															</select>
+														</div>
+														
+														<div class="form-group">
+															<label for="symptoms"> Select Symptoms</label> <br>
+															 	<input type="checkbox" id="symptom1" name="symptom_list[]" value="cold">
+  																	<label for="symptom1"> Cold</label><br>
+																<input type="checkbox" id="symptom2" name="symptom_list[]" value="fever">
+																	<label for="symptom2"> Fever</label><br>
+																<input type="checkbox" id="symptom3" name="symptom_list[]" value="cough">
+																	<label for="symptom3"> Cough</label>   
+<!--
+																<fieldset>      
+																	<legend>What are the symptoms you are having?</legend>      
+																	<input type="checkbox" name="symptom" value="cold"> Cold   <input type="checkbox" name="symptom" value="cold"> Cold<br>      
+																	<input type="checkbox" name="symptom" value="fever"> fever<br>      
+																	<input type="checkbox" name="symptom" value="cough"> cough<br>      
+																	<br>           
+																</fieldset>   -->
 														</div>
 
-														
+														<div class="form-group">
+															<label for="days">
+																For how many days do you have these symptoms?
+															</label>
+															<input type="number" class="form-control" name="duration"  required="required" >
+
+														</div>
+
+														<div class="form-group">
+															<label for="days">
+																Have you tested for Covid19 yet?
+															</label> <br>
+															<input type="radio" id="test" name="tested" value="Yes"> Yes &nbsp &nbsp &nbsp
+															<input type="radio" id="test" name="tested" value="No" > No
+
+														</div>
+
+														<div class="form-group">
+															<label for="days">
+																To your knowledge, did you go near any covid19 affected people in last 14 days? 
+															</label> <br>
+															<input type="radio" id="test" name="touched" value="Yes"> Yes &nbsp &nbsp &nbsp
+															<input type="radio" id="test" name="touched" value="No"> No &nbsp &nbsp &nbsp
+															<input type="radio" id="test" name="touched" value="NotSure" > Not sure, went to a crowded place
+
+														</div>
 
 
 														<div class="form-group">
