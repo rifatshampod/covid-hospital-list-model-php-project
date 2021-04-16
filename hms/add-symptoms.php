@@ -20,7 +20,7 @@ if (isset($_POST['submit'])) {
     $chk .= $chk1 . ",";
 	}
 
-    $query = mysqli_query($con, "insert into symptoms(user_id, symptom_type, symptoms, duration, covid_test, covid_touch, date) values('$userid','$type','$chk','$duration','$tested', '$touched','$appdate')");
+    $query = mysqli_query($con, "insert into symptoms(user_id, symptom_type, symptoms, duration, covid_test, covid_touch, date, userStatus) values('$userid','$type','$chk','$duration','$tested', '$touched','$appdate', 1)");
     if ($query) {
         echo "<script>alert('Your daily update added successfully');</script>";
     }
@@ -106,11 +106,11 @@ if (isset($_POST['submit'])) {
 															</label>
 															<select name="symptomType" class="form-control" required="required">
 																<option value="">Select Symptom Type</option>
-																<?php $ret = mysqli_query($con, "select * from doctorspecilization");
+																<?php $ret = mysqli_query($con, "select * from symptomtype");
 																	while ($row = mysqli_fetch_array($ret)) {
     															?>
-																<option value="<?php echo htmlentities($row['specilization']); ?>">
-																<?php echo htmlentities($row['specilization']); ?>
+																<option value="<?php echo htmlentities($row['type_name']); ?>">
+																<?php echo htmlentities($row['type_name']); ?>
 																</option>
 																<?php }?>
 

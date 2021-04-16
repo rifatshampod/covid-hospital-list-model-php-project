@@ -1,30 +1,32 @@
 <?php
 session_start();
 //error_reporting(0);
-include 'include/config.php';
-include 'include/checklogin.php';
+include('include/config.php');
+include('include/checklogin.php');
 check_login();
 
-if (isset($_POST['submit'])) {
-    $specilization = $_POST['Doctorspecialization'];
-    $doctorid = $_POST['doctor'];
-    $userid = $_SESSION['id'];
-    $fees = $_POST['fees'];
-    $appdate = $_POST['appdate'];
-    $time = $_POST['apptime'];
-    $userstatus = 1;
-    $docstatus = 1;
-    $query = mysqli_query($con, "insert into appointment(doctorSpecialization,doctorId,userId,consultancyFees,appointmentDate,appointmentTime,userStatus,doctorStatus) values('$specilization','$doctorid','$userid','$fees','$appdate','$time','$userstatus','$docstatus')");
-    if ($query) {
-        echo "<script>alert('Your appointment successfully booked');</script>";
-    }
+if(isset($_POST['submit']))
+{
+$specilization=$_POST['Doctorspecialization'];
+$doctorid=$_POST['doctor'];
+$userid=$_SESSION['id'];
+$fees=$_POST['fees'];
+$appdate=$_POST['appdate'];
+$time=$_POST['apptime'];
+$userstatus=1;
+$docstatus=1;
+$query=mysqli_query($con,"insert into appointment(doctorSpecialization,doctorId,userId,consultancyFees,appointmentDate,appointmentTime,userStatus,doctorStatus) values('$specilization','$doctorid','$userid','$fees','$appdate','$time','$userstatus','$docstatus')");
+	if($query)
+	{
+		echo "<script>alert('Your appointment successfully booked');</script>";
+	}
 
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>User  | Daily Update</title>
+		<title>User  | Book Appointment</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -56,7 +58,7 @@ function getdoctor(val) {
 	}
 	});
 }
-</script>
+</script>	
 
 
 <script>
@@ -70,19 +72,16 @@ function getfee(val) {
 	}
 	});
 }
-</script>
-
-
-
+</script>	
 
 	</head>
 	<body>
-		<div id="app">
-<?php include 'include/sidebar.php';?>
+		<div id="app">		
+<?php include('include/sidebar.php');?>
 			<div class="app-content">
-
-						<?php include 'include/header.php';?>
-
+			
+						<?php include('include/header.php');?>
+					
 				<!-- end: TOP NAVBAR -->
 				<div class="main-content" >
 					<div class="wrap-content container" id="container">
@@ -90,14 +89,14 @@ function getfee(val) {
 						<section id="page-title">
 							<div class="row">
 								<div class="col-sm-8">
-									<h1 class="mainTitle">User | Update Symptoms</h1>
+									<h1 class="mainTitle">User | Book Appointment</h1>
 																	</div>
 								<ol class="breadcrumb">
 									<li>
 										<span>User</span>
 									</li>
 									<li class="active">
-										<span>Daily Update</span>
+										<span>Book Appointment</span>
 									</li>
 								</ol>
 						</section>
@@ -106,60 +105,80 @@ function getfee(val) {
 						<div class="container-fluid container-fullw bg-white">
 							<div class="row">
 								<div class="col-md-12">
-
+									
 									<div class="row margin-top-30">
 										<div class="col-lg-8 col-md-12">
 											<div class="panel panel-white">
 												<div class="panel-heading">
-													<h5 class="panel-title">Add Symptoms</h5>
+													<h5 class="panel-title">Book Appointment</h5>
 												</div>
 												<div class="panel-body">
-													<p style="color:red;"><?php echo htmlentities($_SESSION['msg1']); ?>
-													<?php echo htmlentities($_SESSION['msg1'] = ""); ?></p>
+								<p style="color:red;"><?php echo htmlentities($_SESSION['msg1']);?>
+								<?php echo htmlentities($_SESSION['msg1']="");?></p>	
 													<form role="form" name="book" method="post" >
+														
 
-														<div class="form-group">
+
+<div class="form-group">
 															<label for="DoctorSpecialization">
-																Symptom Type
+																Doctor Specialization
 															</label>
-															<select name="Doctorspecialization" class="form-control" onChange="getdoctor(this.value);" required="required">
-																<option value="">Select Symptom Type</option>
-																	<?php $ret = mysqli_query($con, "select * from doctorspecilization");
-																		while ($row = mysqli_fetch_array($ret)) {
-    																?>
-																<option value="<?php echo htmlentities($row['specilization']); ?>">
-																	<?php echo htmlentities($row['specilization']); ?>
+							<select name="Doctorspecialization" class="form-control" onChange="getdoctor(this.value);" required="required">
+																<option value="">Select Specialization</option>
+<?php $ret=mysqli_query($con,"select * from doctorspecilization");
+while($row=mysqli_fetch_array($ret))
+{
+?>
+																<option value="<?php echo htmlentities($row['specilization']);?>">
+																	<?php echo htmlentities($row['specilization']);?>
 																</option>
-																<?php }?>
-
+																<?php } ?>
+																
 															</select>
 														</div>
+
+
+
 
 														<div class="form-group">
 															<label for="doctor">
 																Doctors
 															</label>
-																<select name="doctor" class="form-control" id="doctor" onChange="getfee(this.value);" required="required">
-																	<option value="">Select Doctor</option>
-																</select>
+						<select name="doctor" class="form-control" id="doctor" onChange="getfee(this.value);" required="required">
+						<option value="">Select Doctor</option>
+						</select>
 														</div>
 
 
+
+
+
 														<div class="form-group">
+															<label for="consultancyfees">
+																Consultancy Fees
+															</label>
+					<select name="fees" class="form-control" id="fees"  readonly>
+						
+						</select>
+														</div>
+														
+<div class="form-group">
 															<label for="AppointmentDate">
 																Date
 															</label>
-															<input class="form-control datepicker" name="appdate"  required="required" data-date-format="yyyy-mm-dd">
-
+<input class="form-control datepicker" name="appdate"  required="required" data-date-format="yyyy-mm-dd">
+	
 														</div>
-
-														<div class="form-group">
+														
+<div class="form-group">
 															<label for="Appointmenttime">
-																Time
+														
+														Time
+													
 															</label>
-															<input class="form-control" name="apptime" id="timepicker1" required="required">eg : 10:00 PM
-														</div>
-
+			<input class="form-control" name="apptime" id="timepicker1" required="required">eg : 10:00 PM
+														</div>														
+														
 														<button type="submit" name="submit" class="btn btn-o btn-primary">
 															Submit
 														</button>
@@ -167,29 +186,33 @@ function getfee(val) {
 												</div>
 											</div>
 										</div>
-
+											
+											</div>
+										</div>
+									
 									</div>
 								</div>
-
-							</div>
-						</div>
-
+							
 						<!-- end: BASIC EXAMPLE -->
-
-
-
-
-
-
+			
+					
+					
+						
+						
+					
 						<!-- end: SELECT BOXES -->
-
+						
 					</div>
 				</div>
 			</div>
 			<!-- start: FOOTER -->
-	<?php include 'include/footer.php';?>
+	<?php include('include/footer.php');?>
 			<!-- end: FOOTER -->
-
+		
+			<!-- start: SETTINGS -->
+	<?php include('include/setting.php');?>
+			
+			<!-- end: SETTINGS -->
 		</div>
 		<!-- start: MAIN JAVASCRIPTS -->
 		<script src="vendor/jquery/jquery.min.js"></script>

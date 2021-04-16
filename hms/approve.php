@@ -1,15 +1,42 @@
 <?php
 session_start();
 //error_reporting(0);
-include('include/config.php');
-include('include/checklogin.php');
+include 'include/config.php';
+include 'include/checklogin.php';
 check_login();
 
+if (isset($_POST['submit'])) {
+
+	$userid = $_SESSION['id'];
+	$seeker = $_POST['seeker'];
+
+    $query = mysqli_query($con, "UPDATE requestaccess SET approval=1 where user_id ='".$userid."' AND seeker_name= '".$seeker."'");
+    if ($query) {
+        echo "<script>alert('Your daily update added successfully');</script>";
+    } else {
+        echo '<script>alert("Failed To Insert")</script>';
+    }
+
+}
+else if(isset($_POST['cancel'])) {
+
+   $userid = $_SESSION['id'];
+	$seeker = $_POST['seeker'];
+
+	$query = mysqli_query($con, "UPDATE requestaccess SET approval=2 where user_id ='" . $userid . "' AND seeker_name= '" . $seeker . "'");
+	if ($query) {
+		echo "<script>alert('Seeker approval cancelled successfully');</script>";
+	} else {
+		echo '<script>alert("Failed To Insert")</script>';
+	}
+
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Patient  | Dashboard</title>
+		<title>User  | Data sharing approval</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,16 +57,15 @@ check_login();
 		<link rel="stylesheet" href="assets/css/styles.css">
 		<link rel="stylesheet" href="assets/css/plugins.css">
 		<link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
-
-
 	</head>
+
 	<body>
-		<div id="app">		
-<?php include('include/sidebar.php');?>
+		<div id="app">
+            <?php include 'include/sidebar.php';?>
 			<div class="app-content">
-				
-						<?php include('include/header.php');?>
-						
+
+						<?php include 'include/header.php';?>
+
 				<!-- end: TOP NAVBAR -->
 				<div class="main-content" >
 					<div class="wrap-content container" id="container">
@@ -47,141 +73,87 @@ check_login();
 						<section id="page-title">
 							<div class="row">
 								<div class="col-sm-8">
-									<h1 class="mainTitle">Patient | Dashboard</h1>
+									<h1 class="mainTitle">User | Profile Sharing</h1>
 																	</div>
 								<ol class="breadcrumb">
 									<li>
-										<span>Patient</span>
+										<span>User</span>
 									</li>
 									<li class="active">
-										<span>Dashboard</span>
+										<span>approval</span>
 									</li>
 								</ol>
-							</div>
 						</section>
 						<!-- end: PAGE TITLE -->
 						<!-- start: BASIC EXAMPLE -->
-							<div class="container-fluid container-fullw bg-white">
-							<div class="row">
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-smile-o fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">My Profile</h2>
-											
-											<p class="links cl-effect-1">
-												<a href="edit-profile.php">
-													Update Profile
-												</a>
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-paperclip fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">My Daily Updates</h2>
-										
-											<p class="cl-effect-1">
-												<a href="appointment-history.php">
-													View Update History
-												</a>
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-terminal fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle"> My Notifications</h2>
-											
-											<p class="links cl-effect-1">
-												<a href="notification.php">
-													Check for notification
-												</a>
-											</p>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
 						<div class="container-fluid container-fullw bg-white">
 							<div class="row">
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius" style="padding-left: 10px;">
-										<h3>Latest Updates</h3>
-										<hr>
-										
-										<?php
-											$sql = mysqli_query($con, "select *  from symptoms where user_id='" . $_SESSION['id'] . "' LIMIT 4");
-											$cnt = 1;
-											while ($row = mysqli_fetch_array($sql)) {
-												 echo $row['symptoms'];
-												 echo $row['date'];
-												 echo "For ".$row['duration']." days";
-											}
+								<div class="col-md-12">
 
-										?>
+									<div class="row margin-top-30">
+										<div class="col-lg-8 col-md-12">
+											<div class="panel panel-white">
+												<div class="panel-heading">
+													<h5 class="panel-title">See Who wants to access your profile information</h5>
+												</div>
+												<div class="form-group">
+													<?php $ret = mysqli_query($con, "select * from requestaccess where approval=0");
+														if (mysqli_num_rows($ret) > 0) {     //if there is request 
+																while ($row = mysqli_fetch_array($ret)) { ?>
+																		<form role="form" name="book" method="post">
+																			<div class="form-group">
+																			<label for="seekerName">
+																				Data Seeker Name: 
+																			</label>
+																			<input type="text" name="seeker" value="<?php echo htmlentities($row['seeker_name']);?>" readonly>
+																			</div>
+																			
+																			
+																			<button type="submit" name="submit" class="btn btn-o btn-primary">
+																				Approve
+																			</button>
+																			<button type="submit" name="cancel" class="btn btn-o btn-primary">
+																				Cancel
+																			</button>
+																		</form>
+															
+															<?php
+																}
+														} else {   //if no request 
+															?>
+																<p style="text-align:center;padding:50px;">No Request Found</p>
+														<?php
+														}		
+    															?>
+												</div>
+												
+									
+												
+											</div>
+										</div>
 
-
-										<hr>
-										
-									</div>
-								</div>
-
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius" style="padding-left: 10px;">
-										<h3>Recent Notifications</h3>
-										<hr>
-										<p>
-											Check Out this hospitals in your area. 
-										</p>
-										<hr>
-										<p>
-											According to your symptoms, you may have one of these conditions, please
-											get help accordingly. 
-										</p>
-									</div>
-								</div>
-
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius"  style="padding-left: 10px;">
-										<h3>Nearby Hospitals</h3>
-										<hr>
-										<p>
-											Life Care Medical Care Bangsar
-										</p>
-										<hr>
-										<p>
-											Life Care Medical Care Bangsar
-										</p>
-										<hr>
-										<p>
-											Life Care Medical Care Bangsar
-										</p>
-										<hr>
-										<p>
-											Life Care Medical Care Bangsar
-										</p>
 									</div>
 								</div>
 
 							</div>
 						</div>
 
-					
+						<!-- end: BASIC EXAMPLE -->
+
+
+
+
+
+
 						<!-- end: SELECT BOXES -->
-						
+
 					</div>
 				</div>
 			</div>
 			<!-- start: FOOTER -->
-	<?php include('include/footer.php');?>
+	<?php include 'include/footer.php';?>
 			<!-- end: FOOTER -->
-		
+
 		</div>
 		<!-- start: MAIN JAVASCRIPTS -->
 		<script src="vendor/jquery/jquery.min.js"></script>
@@ -210,8 +182,19 @@ check_login();
 				Main.init();
 				FormElements.init();
 			});
+
+			$('.datepicker').datepicker({
+    format: 'yyyy-mm-dd',
+    startDate: '-3d'
+});
 		</script>
+		  <script type="text/javascript">
+            $('#timepicker1').timepicker();
+        </script>
 		<!-- end: JavaScript Event Handlers for this page -->
 		<!-- end: CLIP-TWO JAVASCRIPTS -->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+
 	</body>
 </html>

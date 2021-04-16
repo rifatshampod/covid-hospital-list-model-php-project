@@ -5,14 +5,14 @@ include 'include/config.php';
 include 'include/checklogin.php';
 check_login();
 if (isset($_GET['cancel'])) {
-    mysqli_query($con, "update appointment set userStatus='0' where id = '" . $_GET['id'] . "'");
-    $_SESSION['msg'] = "Your appointment canceled !!";
+    mysqli_query($con, "update symptoms set userStatus='0' where id = '" . $_GET['id'] . "'");
+    $_SESSION['msg'] = "Your data deleted !!";
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>User | Appointment History</title>
+		<title>User | Update History</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -48,14 +48,14 @@ if (isset($_GET['cancel'])) {
 						<section id="page-title">
 							<div class="row">
 								<div class="col-sm-8">
-									<h1 class="mainTitle">User  | Appointment History</h1>
+									<h1 class="mainTitle">User  | Data update List</h1>
 																	</div>
 								<ol class="breadcrumb">
 									<li>
 										<span>User </span>
 									</li>
 									<li class="active">
-										<span>Appointment History</span>
+										<span>Data update</span>
 									</li>
 								</ol>
 							</div>
@@ -74,55 +74,37 @@ if (isset($_GET['cancel'])) {
 										<thead>
 											<tr>
 												<th class="center">#</th>
-												<th class="hidden-xs">Doctor Name</th>
-												<th>Specialization</th>
-												<th>Consultancy Fee</th>
-												<th>Appointment Date / Time </th>
-												<th>Appointment Creation Date  </th>
-												<th>Current Status</th>
-												<th>Action</th>
+												<th>Symptom Type</th>
+												<th>Symptoms</th>
+												<th>Duration</th>
+												<th>Tested?</th>
+												<th>Exposed?</th>
+												<th>Date</th>
 
 											</tr>
 										</thead>
 										<tbody>
 <?php
-$sql = mysqli_query($con, "select doctors.doctorName as docname,appointment.*  from appointment join doctors on doctors.id=appointment.doctorId where appointment.userId='" . $_SESSION['id'] . "'");
+$sql = mysqli_query($con, "select *  from symptoms where user_id='" . $_SESSION['id'] . "'");
 $cnt = 1;
 while ($row = mysqli_fetch_array($sql)) {
     ?>
 
 											<tr>
 												<td class="center"><?php echo $cnt; ?>.</td>
-												<td class="hidden-xs"><?php echo $row['docname']; ?></td>
-												<td><?php echo $row['doctorSpecialization']; ?></td>
-												<td><?php echo $row['consultancyFees']; ?></td>
-												<td><?php echo $row['appointmentDate']; ?> / <?php echo
-        $row['appointmentTime']; ?>
-												</td>
-												<td><?php echo $row['postingDate']; ?></td>
-												<td>
-<?php if (($row['userStatus'] == 1) && ($row['doctorStatus'] == 1)) {
-        echo "Active";
-    }
-    if (($row['userStatus'] == 0) && ($row['doctorStatus'] == 1)) {
-        echo "Cancel by You";
-    }
-
-    if (($row['userStatus'] == 1) && ($row['doctorStatus'] == 0)) {
-        echo "Cancel by Doctor";
-    }
-
-    ?></td>
+												<td class="hidden-xs"><?php echo $row['symptom_type']; ?></td>
+												<td><?php echo $row['symptoms']; ?></td>
+												<td><?php echo $row['duration']; ?></td>
+												<td><?php echo $row['covid_test']; ?> </td>
+												<td><?php echo $row['covid_touch']; ?></td>
+												<td><?php echo $row['date']; ?></td>
 												<td >
 												<div class="visible-md visible-lg hidden-sm hidden-xs">
-							<?php if (($row['userStatus'] == 1) && ($row['doctorStatus'] == 1)) {?>
+							
 
 
-	<a href="appointment-history.php?id=<?php echo $row['id'] ?>&cancel=update" onClick="return confirm('Are you sure you want to cancel this appointment ?')"class="btn btn-transparent btn-xs tooltips" title="Cancel Appointment" tooltip-placement="top" tooltip="Remove">Cancel</a>
-	<?php } else {
-
-        echo "Canceled";
-    }?>
+<!--	<a href="symptoms-history.php?id=<?php echo $row['id'] ?>&cancel=update" onClick="return confirm('Are you sure you want to delete this information?')"class="btn btn-transparent btn-xs tooltips" title="Delete Information" tooltip-placement="top" tooltip="Remove">Delete</a>  -->
+	
 												</div>
 												<div class="visible-xs visible-sm hidden-md hidden-lg">
 													<div class="btn-group" dropdown is-open="status.isopen">
