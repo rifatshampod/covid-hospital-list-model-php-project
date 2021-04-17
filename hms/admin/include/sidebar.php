@@ -73,7 +73,7 @@
 								</ul>
 								</li>	
 
-<li>
+							<li>
 								<a href="appointment-history.php">
 									<div class="item-content">
 										<div class="item-media">
@@ -86,7 +86,33 @@
 								</a>
 							</li>
 
-	<li>
+							<li>
+								<a href="add-symptomsType.php">
+									<div class="item-content">
+										<div class="item-media">
+											<i class="ti-pulse"></i>
+										</div>
+										<div class="item-inner">
+											<span class="title"> Add Symptoms Type </span>
+										</div>
+									</div>
+								</a>
+							</li>
+
+							<li>
+								<a href="add-hospital.php">
+									<div class="item-content">
+										<div class="item-media">
+											<i class="ti-map"></i>
+										</div>
+										<div class="item-inner">
+											<span class="title"> Add Hospital </span>
+										</div>
+									</div>
+								</a>
+							</li>
+
+							<li>
 								<a href="doctor-logs.php">
 									<div class="item-content">
 										<div class="item-media">
