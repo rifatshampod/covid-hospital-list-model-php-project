@@ -15,6 +15,13 @@ if (isset($_POST['submit'])) {
 	$touched = $_POST['touched'];
 	$appdate = $_POST['appdate'];
 	$chk = "";
+	$notify = "must see doctor";
+	$level = 2;
+
+	// ----------------------notification builder start
+	
+
+	//-----------------------notification builder end
 
 	foreach ($symptom as $chk1) {
     $chk .= $chk1 . ",";
@@ -28,6 +35,12 @@ if (isset($_POST['submit'])) {
    {  
       echo'<script>alert("Failed To Insert")</script>';  
    }
+
+   if($duration>=5){
+		$queryNotify = mysqli_query($con, "insert into notification(user_id, symptom_type, symptoms, date, notification, level) values('$userid','$type','$chk','$appdate', '$notify', '$level')");
+   }
+   
+
 
 }
 ?>

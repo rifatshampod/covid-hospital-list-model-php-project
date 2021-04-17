@@ -113,21 +113,19 @@ check_login();
 								<div class="col-sm-4">
 									<div class="panel panel-white no-radius" style="padding-left: 10px;">
 										<h3>Latest Updates</h3>
-										<hr>
-										
+
 										<?php
 											$sql = mysqli_query($con, "select *  from symptoms where user_id='" . $_SESSION['id'] . "' LIMIT 4");
 											$cnt = 1;
 											while ($row = mysqli_fetch_array($sql)) {
+												echo "<hr>";
+
 												 echo $row['symptoms'];
 												 echo $row['date'];
 												 echo "For ".$row['duration']." days";
 											}
 
 										?>
-
-
-										<hr>
 										
 									</div>
 								</div>
@@ -135,37 +133,33 @@ check_login();
 								<div class="col-sm-4">
 									<div class="panel panel-white no-radius" style="padding-left: 10px;">
 										<h3>Recent Notifications</h3>
-										<hr>
-										<p>
-											Check Out this hospitals in your area. 
-										</p>
-										<hr>
-										<p>
-											According to your symptoms, you may have one of these conditions, please
-											get help accordingly. 
-										</p>
+										<?php
+											$sql = mysqli_query($con, "select *  from notification where user_id='" . $_SESSION['id'] . "' LIMIT 4");
+											$cnt = 1;
+											while ($row = mysqli_fetch_array($sql)) {
+												echo "<hr>";
+												echo $row['date']."<br>";
+												echo $row['notification']."<br>";
+												echo "Critical: " . $row['level'];
+											}  ?>
+
 									</div>
 								</div>
 
 								<div class="col-sm-4">
 									<div class="panel panel-white no-radius"  style="padding-left: 10px;">
-										<h3>Nearby Hospitals</h3>
-										<hr>
-										<p>
-											Life Care Medical Care Bangsar
-										</p>
-										<hr>
-										<p>
-											Life Care Medical Care Bangsar
-										</p>
-										<hr>
-										<p>
-											Life Care Medical Care Bangsar
-										</p>
-										<hr>
-										<p>
-											Life Care Medical Care Bangsar
-										</p>
+										<h3>Hospitals</h3>
+										<?php
+											$sql = mysqli_query($con, "select *  from hospital  LIMIT 2");
+											$cnt = 1;
+											while ($row = mysqli_fetch_array($sql)) {
+												echo "<hr>";
+												echo $row['name'] . "<br>";
+												echo $row['address'] . "<br>";
+												echo  $row['phone'];
+											}
+											?>
+
 									</div>
 								</div>
 

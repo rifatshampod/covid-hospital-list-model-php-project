@@ -1,15 +1,26 @@
 <?php
 session_start();
 //error_reporting(0);
-include('include/config.php');
-include('include/checklogin.php');
+include 'include/config.php';
+include 'include/checklogin.php';
 check_login();
 
+$city = "";
+
+$sql = mysqli_query($con, "select city  from users where id='" . $_SESSION['id']."'");
+while ($row = mysqli_fetch_array($sql)) {
+        $city = $row['city'];
+}
+
+if (isset($_GET['cancel'])) {
+    mysqli_query($con, "update symptoms set userStatus='0' where id = '" . $_GET['id'] . "'");
+    $_SESSION['msg'] = "Your data deleted !!";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Doctor  | Dashboard</title>
+		<title>User | Hospitals</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,16 +41,14 @@ check_login();
 		<link rel="stylesheet" href="assets/css/styles.css">
 		<link rel="stylesheet" href="assets/css/plugins.css">
 		<link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
-
-
 	</head>
 	<body>
-		<div id="app">		
-<?php include('include/sidebar.php');?>
+		<div id="app">
+<?php include 'include/sidebar.php';?>
 			<div class="app-content">
-				
-						<?php include('include/header.php');?>
-						
+
+
+					<?php include 'include/header.php';?>
 				<!-- end: TOP NAVBAR -->
 				<div class="main-content" >
 					<div class="wrap-content container" id="container">
@@ -47,87 +56,68 @@ check_login();
 						<section id="page-title">
 							<div class="row">
 								<div class="col-sm-8">
-									<h1 class="mainTitle">Doctor | Dashboard</h1>
+									<h1 class="mainTitle">Hospitals In My Location</h1>
 																	</div>
 								<ol class="breadcrumb">
 									<li>
-										<span>User</span>
+										<span>User </span>
 									</li>
 									<li class="active">
-										<span>Dashboard</span>
+										<span>hospitals</span>
 									</li>
 								</ol>
 							</div>
 						</section>
 						<!-- end: PAGE TITLE -->
 						<!-- start: BASIC EXAMPLE -->
-							<div class="container-fluid container-fullw bg-white">
+						<div class="container-fluid container-fullw bg-white">
 							<div class="row">
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-smile-o fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">My Profile</h2>
-											
-											<p class="links cl-effect-1">
-												<a href="edit-profile.php">
-													Update Profile
-												</a>
-											</p>
-										</div>
+										<!-- hospital code -->
+<?php
+$sqlHospital = mysqli_query($con, "select *  from hospital where city='". $city."'");
+while ($row = mysqli_fetch_array($sqlHospital)) {
+?>
+                            <div class="col-sm-4">
+									<div class="panel panel-white no-radius" style="padding-left: 10px;">
+                                        <?php
+                                            echo "<h3>".$row['name']."</h3>";
+                                            echo "<br>";
+                                            echo $row['address'];
+                                            echo "<br>";
+                                            echo $row['phone'];
+                                            echo "<br>";
+                                            echo $row['email'];
+                                            echo "<br>";
+                                            echo $row['description'];
+                                        
+                                        ?>
 									</div>
-								</div>
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-paperclip fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">My Appointments</h2>
-										
-											<p class="cl-effect-1">
-												<a href="appointment-history.php">
-													View Appointment History
-												</a>
-											</p>
-										</div>
-									</div>
-								</div>
-
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-info fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">My Requests</h2>
-										
-											<p class="cl-effect-1">
-												<a href="request.php">
-													View Request Response
-												</a>
-											</p>
-										</div>
-									</div>
-								</div>
-								
 							</div>
+
+<?php 
+}
+
+?>
+
+
+                                <div class="col-sm-4">
+									<div class="panel panel-white no-radius" style="padding-left: 10px;">
+		
+									</div>
+								</div>
+							 </div>
 						</div>
-			
-					
-					
-						
-						
-					
+
+						<!-- end: BASIC EXAMPLE -->
 						<!-- end: SELECT BOXES -->
-						
+
 					</div>
 				</div>
 			</div>
 			<!-- start: FOOTER -->
-	<?php include('include/footer.php');?>
+	<?php include 'include/footer.php';?>
 			<!-- end: FOOTER -->
-		
-			<!-- start: SETTINGS -->
-	<?php include('include/setting.php');?>
-			<>
-			<!-- end: SETTINGS -->
+
 		</div>
 		<!-- start: MAIN JAVASCRIPTS -->
 		<script src="vendor/jquery/jquery.min.js"></script>

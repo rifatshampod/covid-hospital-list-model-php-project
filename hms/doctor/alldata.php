@@ -5,11 +5,27 @@ include('include/config.php');
 include('include/checklogin.php');
 check_login();
 
+$userid = $_SESSION['id'];
+$seeker = "";
+
+$sqlUser=mysqli_query($con,"select doctorName  from doctors where id= '".$userid."'");
+
+while($row=mysqli_fetch_array($sqlUser))
+{
+    $seeker = $row['doctorName'];
+}
+
+if(isset($_GET['cancel']))
+		  { 
+		         
+                  mysqli_query($con, "insert into requestaccess(seeker_name, user_id, approval) values('$seeker', '".$_GET['id']."', 0)");
+                  $_SESSION['msg']="Personal Data Requested !!";
+		  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<title>Doctor  | Dashboard</title>
+		<title>Doctor | All Covid Data update</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -30,16 +46,14 @@ check_login();
 		<link rel="stylesheet" href="assets/css/styles.css">
 		<link rel="stylesheet" href="assets/css/plugins.css">
 		<link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
-
-
 	</head>
 	<body>
 		<div id="app">		
 <?php include('include/sidebar.php');?>
 			<div class="app-content">
 				
-						<?php include('include/header.php');?>
-						
+
+					<?php include('include/header.php');?>
 				<!-- end: TOP NAVBAR -->
 				<div class="main-content" >
 					<div class="wrap-content container" id="container">
@@ -47,74 +61,81 @@ check_login();
 						<section id="page-title">
 							<div class="row">
 								<div class="col-sm-8">
-									<h1 class="mainTitle">Doctor | Dashboard</h1>
+									<h1 class="mainTitle">Doctor  | All covid data update</h1>
 																	</div>
 								<ol class="breadcrumb">
 									<li>
-										<span>User</span>
+										<span>Doctor </span>
 									</li>
 									<li class="active">
-										<span>Dashboard</span>
+										<span>all data</span>
 									</li>
 								</ol>
 							</div>
 						</section>
 						<!-- end: PAGE TITLE -->
 						<!-- start: BASIC EXAMPLE -->
-							<div class="container-fluid container-fullw bg-white">
-							<div class="row">
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-smile-o fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">My Profile</h2>
-											
-											<p class="links cl-effect-1">
-												<a href="edit-profile.php">
-													Update Profile
-												</a>
-											</p>
-										</div>
-									</div>
-								</div>
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-paperclip fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">My Appointments</h2>
-										
-											<p class="cl-effect-1">
-												<a href="appointment-history.php">
-													View Appointment History
-												</a>
-											</p>
-										</div>
-									</div>
-								</div>
+						<div class="container-fluid container-fullw bg-white">
+						
 
-								<div class="col-sm-4">
-									<div class="panel panel-white no-radius text-center">
-										<div class="panel-body">
-											<span class="fa-stack fa-2x"> <i class="fa fa-square fa-stack-2x text-primary"></i> <i class="fa fa-info fa-stack-1x fa-inverse"></i> </span>
-											<h2 class="StepTitle">My Requests</h2>
-										
-											<p class="cl-effect-1">
-												<a href="request.php">
-													View Request Response
-												</a>
-											</p>
-										</div>
-									</div>
+									<div class="row">
+								<div class="col-md-12">
+									
+									<p style="color:red;"><?php echo htmlentities($_SESSION['msg']);?>
+								<?php echo htmlentities($_SESSION['msg']="");?></p>	
+									<table class="table table-hover" id="sample-table-1">
+										<thead>
+											<tr>
+												<th class="center">#</th>
+												<th class="hidden-xs">Patient  ID</th>
+												<th>Symptom Type</th>
+												<th>Symptoms</th>
+												<th>Symptom Duration </th>
+												<th>Covid Test  </th>
+												<th>Recent Expose Possibility</th>
+                                                <th>Date of input</th>
+												<th>Action</th>
+												
+											</tr>
+										</thead>
+										<tbody>
+<?php
+$sql=mysqli_query($con,"select *  from symptoms");
+$cnt=1;
+while($row=mysqli_fetch_array($sql))
+{
+?>
+
+											<tr>
+												<td class="center"><?php echo $cnt;?>.</td>
+												<td class="hidden-xs"><?php echo $row['user_id'];?></td>
+												<td><?php echo $row['symptom_type'];?></td>
+												<td><?php echo $row['symptoms'];?></td>
+												<td><?php echo $row['duration'];?> </td>
+												<td><?php echo $row['covid_test'];?></td>
+                                                <td><?php echo $row['covid_touch'];?></td>
+                                                <td><?php echo $row['date'];?></td>
+												
+												<td >
+												<div class="visible-md visible-lg hidden-sm hidden-xs">											
+	<a href="alldata.php?id=<?php echo $row['user_id']?>&cancel=update" onClick="return confirm('Are you sure you want to request for personal information ?')"class="btn btn-transparent btn-xs tooltips" title="Request Data" tooltip-placement="top" tooltip="Remove">Request</a>
+	
+												</div>
+												</td>
+											</tr>
+											
+											<?php 
+$cnt=$cnt+1;
+											 }?>
+											
+											
+										</tbody>
+									</table>
 								</div>
-								
 							</div>
-						</div>
-			
-					
-					
+								</div>
 						
-						
-					
+						<!-- end: BASIC EXAMPLE -->
 						<!-- end: SELECT BOXES -->
 						
 					</div>
@@ -124,10 +145,6 @@ check_login();
 	<?php include('include/footer.php');?>
 			<!-- end: FOOTER -->
 		
-			<!-- start: SETTINGS -->
-	<?php include('include/setting.php');?>
-			<>
-			<!-- end: SETTINGS -->
 		</div>
 		<!-- start: MAIN JAVASCRIPTS -->
 		<script src="vendor/jquery/jquery.min.js"></script>

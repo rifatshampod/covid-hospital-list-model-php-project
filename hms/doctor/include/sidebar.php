@@ -20,6 +20,33 @@
 									</div>
 								</a>
 							</li>
+
+							<li>
+								<a href="alldata.php">
+									<div class="item-content">
+										<div class="item-media">
+											<i class="ti-server"></i>
+										</div>
+										<div class="item-inner">
+											<span class="title"> Covid Database </span>
+										</div>
+									</div>
+								</a>
+							</li>
+
+							<li>
+								<a href="request.php">
+									<div class="item-content">
+										<div class="item-media">
+											<i class="ti-bookmark"></i>
+										</div>
+										<div class="item-inner">
+											<span class="title"> Requested Data</span>
+										</div>
+									</div>
+								</a>
+							</li>
+
 							
 
 							<li>
