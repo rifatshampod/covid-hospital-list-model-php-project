@@ -125,7 +125,7 @@ function getfee(val) {
 															</label>
 							<select name="Doctorspecialization" class="form-control" onChange="getdoctor(this.value);" required="required">
 																<option value="">Select Specialization</option>
-<?php $ret=mysqli_query($con,"select * from doctorspecilization");
+<?php $ret=mysqli_query($con,"select * from doctorspecilization where specilization <> 'Data Researcher'");
 while($row=mysqli_fetch_array($ret))
 {
 ?>

@@ -1,11 +1,13 @@
 <?php
+
 session_start();
 //error_reporting(0);
-include('include/config.php');
-include('include/checklogin.php');
+include 'include/config.php';
+include 'include/checklogin.php';
 check_login();
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -31,14 +33,13 @@ check_login();
 		<link rel="stylesheet" href="assets/css/plugins.css">
 		<link rel="stylesheet" href="assets/css/themes/theme-1.css" id="skin_color" />
 
-
 	</head>
 	<body>
 		<div id="app">		
-<?php include('include/sidebar.php');?>
+<?php include 'include/sidebar.php';?>
 			<div class="app-content">
 				
-						<?php include('include/header.php');?>
+						<?php include 'include/header.php'; ?>
 						
 				<!-- end: TOP NAVBAR -->
 				<div class="main-content" >
@@ -71,8 +72,8 @@ check_login();
 											
 											<p class="links cl-effect-1">
 												<a href="manage-users.php">
-												<?php $result = mysql_query("SELECT * FROM users ");
-$num_rows = mysql_num_rows($result);
+												<?php $result = mysqli_query($con, "SELECT * FROM users ");
+$num_rows = mysqli_num_rows($result);
 {
 ?>
 											Total Patients :<?php echo htmlentities($num_rows);  } ?>		
@@ -89,8 +90,8 @@ $num_rows = mysql_num_rows($result);
 										
 											<p class="cl-effect-1">
 												<a href="manage-doctors.php">
-												<?php $result1 = mysql_query("SELECT * FROM doctors ");
-$num_rows1 = mysql_num_rows($result1);
+												<?php $result1 = mysqli_query($con, "SELECT * FROM doctors ");
+$num_rows1 = mysqli_num_rows($result1);
 {
 ?>
 											Total Doctors :<?php echo htmlentities($num_rows1);  } ?>		
@@ -109,8 +110,8 @@ $num_rows1 = mysql_num_rows($result1);
 											<p class="links cl-effect-1">
 												<a href="book-appointment.php">
 													<a href="appointment-history.php">
-												<?php $sql= mysql_query("SELECT * FROM appointment");
-$num_rows2 = mysql_num_rows($sql);
+												<?php $sql= mysqli_query($con, "SELECT * FROM appointment");
+$num_rows2 = mysqli_num_rows($sql);
 {
 ?>
 											Total Appointments :<?php echo htmlentities($num_rows2);  } ?>	
